@@ -1,0 +1,269 @@
+
+/* top polish */
+.QFrame[type="priceCard"] {
+    background-color: #E8F5E9;
+    border-radius: 12px;
+    border: 1px solid #C8E6C9;
+    min-width: 140px;
+    min-height: 80px;
+}
+
+QFrame[type="priceCard"]:hover {
+    background-color: #C8E6C9;
+    border: 1px solid #4CAF50;
+}
+
+QLabel[type="metalPrice"] {
+    color: #2E7D32;
+    font-family: "Microsoft YaHei";
+    background: transparent;
+}
+
+/* middle polish */
+QLabel[type="subtitle"] {
+    color: #546E7A;
+    font-weight: bold;
+    font-size: 24px;
+    padding-bottom: 10px;
+}
+
+QLabel[status="high"] { color: #2E7D32; }
+QLabel[status="mid"]  { color: #EF6C00; }
+QLabel[status="low"]  { color: #C62828; }
+
+/* 统一设置下拉框和数字框 */
+QComboBox, QDoubleSpinBox {
+    border: 1px solid #CFD8DC;
+    border-radius: 6px;
+    padding: 5px 10px;
+    background-color: white;
+    selection-background-color: #4CAF50;
+}
+
+QDoubleSpinBox {
+    padding-right: 20px;
+}
+
+/*  上按钮美化 */
+QDoubleSpinBox::up-button {
+    subcontrol-origin: border;
+    subcontrol-position: top right;
+    width: 20px;
+    border-left: 1px solid #CFD8DC;
+    border-top-right-radius: 6px;
+    background-color: #F5F5F5;
+}
+
+/*  下按钮美化 */
+QDoubleSpinBox::down-button {
+    subcontrol-origin: border;
+    subcontrol-position: bottom right;
+    width: 20px;
+    border-left: 1px solid #CFD8DC;
+    border-bottom-right-radius: 6px;
+    background-color: #F5F5F5;
+}
+
+
+
+/*  去除按钮内原生的箭头背景 */
+QDoubleSpinBox::up-arrow {
+    image: url(:/images/res/add.ico);
+    width: 20px;
+    height: 20px;
+}
+QDoubleSpinBox::down-arrow {
+    image: url(:/images/res/minus.ico);
+    width: 20px;
+    height: 20px;
+}
+
+QDoubleSpinBox::up-button, QDoubleSpinBox::down-button {
+    background-color: transparent;
+    border: none;
+    width: 25px;
+}
+
+/* 激活/聚焦状态 */
+QComboBox:focus, QDoubleSpinBox:focus {
+    border: 2px solid #4CAF50;
+    background-color: #F1F8E9;
+}
+
+/* 微调下拉箭头 */
+QComboBox::drop-down {
+    border: none;
+    width: 20px;
+}
+QComboBox::down-arrow {
+    image: url(:/images/res/downarrow.ico);
+    width: 20px;
+    height: 20px;
+}
+
+/*  整个滑动条的背景槽 */
+QSlider::groove:horizontal {
+    border: none;
+    height: 6px;
+    background: #E0E0E0;
+    margin: 2px 0;
+    border-radius: 3px;
+}
+
+/*  已划过的部分（0% 到 当前值）渐变 */
+QSlider::sub-page:horizontal {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                                stop:0 #A5D6A7, stop:1 #4CAF50);
+    border-radius: 3px;
+}
+
+/*  滑块（Handle）- 圆形绿色点 */
+QSlider::handle:horizontal {
+    background: #FFFFFF;
+    border: 2px solid #4CAF50;
+    width: 16px;
+    height: 16px;
+    margin: -6px 0;
+    border-radius: 9px;
+}
+
+/* 滑块悬停效果 */
+QSlider::handle:horizontal:hover {
+    background: #4CAF50;
+}
+
+/* bottom polish */
+/*  底部总容器 Frame */
+QFrame#frame_4 {
+    background-color: #F8F9FB;
+    border-top: 1px solid #DDE2E8;
+    border-radius: 0px;
+}
+
+/*  左右对称的胶囊卡片 */
+QFrame[type="infoFrame"] {
+    background-color: #FFFFFF;
+    border: 1px solid #E0E4E8;
+    border-radius: 20px;
+    min-height: 40px;
+}
+
+/* 胶囊内的标题标签 */
+QLabel[type="infoFrame_subtitle"] {
+    color: #78909C;
+    font-size: 24px;
+    font-weight: normal;
+}
+
+/* 胶囊内的动态数值标签 */
+QLabel[type="infoFrame_value"] {
+    color: #2E7D32;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/*  最终报价的展示框 */
+QLineEdit#final_price {
+    background-color: #FFF8E1;
+    border: 2px solid #FFD54F;
+    border-radius: 12px;
+    color: #E64A19;
+    font-size: 28px;
+    font-weight: bold;
+    padding: 10px;
+}
+
+/* 基础按钮样式定义 */
+QPushButton#sellButton_offline,
+QPushButton#sellButton_online
+{
+    border-radius: 20px;       /* 高度约40px，设为20px可实现全圆角 */
+    font-size: 16px;
+    font-weight: bold;
+    padding: 8px 25px;         /* 左右加宽，显得更大气 */
+    min-height: 40px;
+    font-family: "Microsoft YaHei";
+}
+
+/* --- 方案 A：出售（上门回收）- 环保绿实色 --- */
+QPushButton#sellButton_offline {
+    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                                      stop:0 #4CAF50, stop:1 #2E7D32); /* 绿色渐变 */
+    color: white;
+    border: none;
+}
+
+QPushButton#sellButton_offline:hover {
+    background-color: #388E3C; /* 悬停时颜色加深 */
+}
+
+QPushButton#sellButton_offline:pressed {
+    background-color: #1B5E20; /* 点击时产生下凹感 */
+    padding-top: 10px;         /* 模拟按下后的位移感 */
+}
+
+/* --- 方案 B：出售（线上邮寄）- 优雅白边框 --- */
+QPushButton#sellButton_online {
+    background-color: white;
+    color: #2E7D32;            /* 文字使用主绿 */
+    border: 2px solid #2E7D32; /* 绿色外边框 */
+}
+
+QPushButton#sellButton_online:hover {
+    background-color: #E8F5E9; /* 悬停时透出淡淡的绿色 */
+}
+
+QPushButton#sellButton_online:pressed {
+    background-color: #C8E6C9;
+    border: 2px solid #1B5E20;
+}
+
+/*  右边   */
+/*  底部总容器 Frame */
+QFrame#frame_2 {
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+    stop:0 #f8f9fc, stop:1 #ffffff);
+    border: 1px solid #e0e4ed;
+    border-radius: 12px;
+    padding: 16px;
+}
+
+QLabel#label_23 {
+    font-size: 36px;
+    font-weight: bold;
+    color: #263238;
+    padding-left: 10px;
+}
+
+/*  右上边   */
+QPushButton#connectBtn {
+    background-color: #16a34a;
+    color: white;
+    border: none;
+    border-radius: 18px;
+    padding: 12px 24px;
+    font-size: 18px;
+    font-weight: 500;
+    min-width: 100px;
+}
+
+QPushButton#connectBtn:hover {
+    background-color: #15803d;
+}
+
+QPushButton#connectBtn:pressed {
+    background-color: #166534;
+}
+
+/* 禁用状态 */
+QPushButton#connectBtn:disabled {
+    background-color: #6ee7b7;
+    color: #14532d;
+}
+
+/* 状态文字 */
+QLabel#socketStatus_label {
+    color: #334155;
+    font-weight: 500;
+    font-size: 24px;
+}

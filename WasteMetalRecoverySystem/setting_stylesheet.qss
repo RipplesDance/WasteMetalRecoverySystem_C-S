@@ -1,0 +1,74 @@
+QLabel {
+    font-size: 24px;
+    font-weight: bold;
+    color: #263238;
+    padding-left: 10px;
+}
+
+QLineEdit {
+    border: 1px solid #a0d0ff;
+    border-radius: 10px;
+    padding: 5px 12px;
+    background-color: #f8fbff;
+    color: #333;
+}
+
+QLineEdit:focus {
+    border: 1px solid #4dabf7;
+    background-color: #ffffff;
+}
+
+QSpinBox {
+    border: 1px solid #CFD8DC;
+    border-radius: 6px;
+    padding: 5px 10px;
+    background-color: white;
+    selection-background-color: #4CAF50;
+
+color: #263238;
+font-size: 36px;
+}
+
+QSpinBox {
+    padding-right: 20px;
+}
+
+/*  上按钮美化 */
+QSpinBox::up-button {
+    subcontrol-origin: border;
+    subcontrol-position: top right;
+    width: 20px;
+    border-left: 1px solid #CFD8DC;
+    border-top-right-radius: 6px;
+    background-color: #F5F5F5;
+}
+
+/*  下按钮美化 */
+QSpinBox::down-button {
+    subcontrol-origin: border;
+    subcontrol-position: bottom right;
+    width: 20px;
+    border-left: 1px solid #CFD8DC;
+    border-bottom-right-radius: 6px;
+    background-color: #F5F5F5;
+}
+
+
+
+/*  去除按钮内原生的箭头背景 */
+QSpinBox::up-arrow {
+    image: url(:/images/res/add.ico);
+    width: 20px;
+    height: 20px;
+}
+QSpinBox::down-arrow {
+    image: url(:/images/res/minus.ico);
+    width: 20px;
+    height: 20px;
+}
+
+QSpinBox::up-button, QSpinBox::down-button {
+    background-color: transparent;
+    border: none;
+    width: 25px;
+}

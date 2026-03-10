@@ -1,0 +1,26 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>res/downarrow.ico</file>
+        <file>res/energyDensity.ico</file>
+        <file>res/leagcyElectricity.ico</file>
+        <file>res/recycle.ico</file>
+        <file>res/SOH.ico</file>
+        <file>res/weight.ico</file>
+        <file>res/time.ico</file>
+        <file>res/batteryType.ico</file>
+        <file>res/duration.ico</file>
+        <file>res/id.ico</file>
+        <file>res/money.ico</file>
+        <file>res/status.ico</file>
+        <file>res/package.ico</file>
+        <file>res/add.ico</file>
+        <file>res/minus.ico</file>
+        <file>res/battery_recycling.ico</file>
+        <file>res/transaction.ico</file>
+        <file>res/gear.ico</file>
+    </qresource>
+    <qresource prefix="/QSS">
+        <file>MainWindow.qss</file>
+        <file>setting_stylesheet.qss</file>
+    </qresource>
+</RCC>

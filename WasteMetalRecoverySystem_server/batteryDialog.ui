@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>batteryDialog</class>
+ <widget class="QDialog" name="batteryDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>942</width>
+    <height>667</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>电池管理</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QTreeWidget" name="batteryInfo_treeWidget">
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::CustomContextMenu</enum>
+     </property>
+     <attribute name="headerCascadingSectionResizes">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="headerStretchLastSection">
+      <bool>true</bool>
+     </attribute>
+     <column>
+      <property name="text">
+       <string>名称</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>正极材料占电池总重比</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>正极材料的回收率</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>正极化合物占正极材料比重</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>正极化合物的回收率</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>锂占正极化合物比重</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>锂的回收率</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>钴占正极化合物比重</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>钴的回收率</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>镍占正极化合物比重</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>镍的回收率</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>锰占正极化合物比重</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>锰的回收率</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>铜占电池总重比</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>铜的回收率</string>
+      </property>
+     </column>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
