@@ -106,6 +106,8 @@ private:
     Ui::MainWindow *ui;
     QMap<QString, double> metalPriceMap;
     quotation quo;
+    QString pendingTransctionId;
+    QString pendingTransctionFilePath;
 
     //extra dialog
     transactionHistoryDialog *transactionHistory_dialog;

@@ -153,7 +153,7 @@ void transactionHistoryDialog::updataTransaction(transaction data)
     else
     {
         ui->post_address_label->setText("【📤】");
-        ui->sent_address_label->setText("【📤 上门地址：" + sent_address.fullName + sent_address.phoneNumber+  "\n"
+        ui->sent_address_label->setText("【📤 上门地址：" + sent_address.fullName + " " + sent_address.phoneNumber+  "\n"
                                         + sent_address.getFullAddress(&sent_address) + "】");
     }
 

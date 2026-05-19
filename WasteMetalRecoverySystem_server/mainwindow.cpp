@@ -388,7 +388,7 @@ void MainWindow::sendMsgToSocket(QTcpSocket* socket, int msg_type, transaction d
         }
         else if(msg_type == NEW_TRANSACTION)
         {
-            out << data.selectSellingWay();
+            out << data.getId() << data.selectSellingWay();
         }
 
         if(socket->write(block) == -1)
