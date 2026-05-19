@@ -85,11 +85,12 @@ void addressDialog::setAddress(address data)
     QString zipCode = data.zipCode;
     bool isDefault = data.isDefault;
 
+    //TODO cannot set province, city and district
     ui->nameLineEdit->setText(fullName);
     ui->phoneLineEdit->setText(phoneNumber);
-    ui->city_comboBox->setEditText(city);
-    ui->province_comboBox->setEditText(province);
-    ui->district_comboBox->setEditText(district);
+    ui->province_comboBox->setCurrentText(province);
+    ui->city_comboBox->setCurrentText(city);
+    ui->district_comboBox->setCurrentText(district);
     ui->detailAddrTextEdit->setText(detail);
     ui->zipCodeLineEdit->setText(zipCode);
     if(isDefault)
@@ -337,6 +338,7 @@ void addressDialog::clearUi()
     ui->phoneLineEdit->clear();
     ui->detailAddrTextEdit->clear();
     ui->zipCodeLineEdit->clear();
+    ui->defaultCheckBox->setChecked(false);
     currentEditingId = "";
 }
 
@@ -368,7 +370,11 @@ void addressDialog::save_btn_clicked()
 {
     // 1. 提取 UI 上的所有原始数据
     address data;
-    data.id = data.generateId();
+    if(currentEditingId.isEmpty())
+        data.id = data.generateId();
+    else
+        data.id = currentEditingId;
+
     qDebug()<<"save_btn_clicked";
     data.fullName = ui->nameLineEdit->text();
     data.phoneNumber = ui->phoneLineEdit->text();
@@ -383,12 +389,6 @@ void addressDialog::save_btn_clicked()
         QMessageBox::warning(this,"警告","必填项为空或不符合规范！");
         return;
     }
-
-//    if(data.isDefault == true && isDefaultExists())
-//    {
-//        QMessageBox::warning(this,"警告","默认地址只能存在一个！");
-//        return;
-//    }
 
     if (data.isDefault) {
             // 将本地所有其他地址的 isDefault 设为 false

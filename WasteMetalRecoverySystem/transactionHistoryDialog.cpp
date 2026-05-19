@@ -146,7 +146,7 @@ void transactionHistoryDialog::updataTransaction(transaction data)
     {
 
         ui->post_address_label->setText("【📤 邮寄地址：" + post_address.fullName + " " + post_address.phoneNumber+  "\n"
-                                        + post_address.getFullAddress(&sent_address) + "】");
+                                        + post_address.getFullAddress(&post_address) + "】");
         ui->sent_address_label->setText("【📤 发送地址：" + sent_address.fullName + " " + sent_address.phoneNumber+  "\n"
                                         + sent_address.getFullAddress(&sent_address) + "】");
     }

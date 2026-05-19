@@ -35,7 +35,8 @@ void dealDialog::updateTransaction(transaction data)
     address sent_address = data.sent_address;
     if(data.selectSellingWay() == "online")
     {
-        ui->post_address_label->setText("邮寄地址：" + post_address.getFullAddress(&post_address));
+        ui->post_address_label->setText("邮寄地址：" + post_address.fullName + " " + post_address.phoneNumber+  "\n"
+                                        + post_address.getFullAddress(&post_address));
         ui->sent_address_label->setText(" 发送地址：" + sent_address.fullName + " " + sent_address.phoneNumber+  "\n"
                                          + sent_address.getFullAddress(&sent_address));
     }

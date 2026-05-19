@@ -558,13 +558,14 @@ void MainWindow::socketError(QAbstractSocket::SocketError socketError)
     qDebug()<<socketError;
     ui->socketStatus_label->setText("🔴未连接");
     ui->connectBtn->setEnabled(true);
+    isConnectted = false;
 }
 
 void MainWindow::socketDisconnected()
 {
     ui->socketStatus_label->setText("🔴未连接");
     ui->connectBtn->setEnabled(true);
-
+    isConnectted = false;
 }
 
 void MainWindow::socketConnected()
@@ -678,7 +679,7 @@ void MainWindow::msgFromServer()
                 address data = address_dialog->post_address;
                 QMessageBox::information(this, "成功", QString("已收到您的交易请求，请邮寄到\n"
                                                              "收件人: %1, 电话: %2\n"
-                                                             "地址: %2\n"
+                                                             "地址: %3\n"
                                                              "收到电池后将立即处理您的请求!")
                                          .arg(data.fullName,data.phoneNumber,data.getFullAddress(&data)));
             }
