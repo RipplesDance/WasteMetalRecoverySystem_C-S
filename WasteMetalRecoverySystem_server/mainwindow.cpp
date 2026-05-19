@@ -7,9 +7,19 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    //init post address
+    post_address.fullName = "林风";
+    post_address.phoneNumber = "15503829181";
+    post_address.province = "上海市";
+    post_address.city = "上海市";
+    post_address.district = "松江区";
+    post_address.detail = "电池有限公司";
+
+    //init timer
     heartBeatTimer = new QTimer(this);
     connect(heartBeatTimer,&QTimer::timeout, this, &MainWindow::heartBeatResult);
 
+    //add item to combo box
     ui->sort_box->addItem("按订单创建时间正序");
     ui->sort_box->addItem("按订单创建时间倒序");
     ui->sort_box->addItem("按报价大小正序");
@@ -376,6 +386,10 @@ void MainWindow::sendMsgToSocket(QTcpSocket* socket, int msg_type, transaction d
         {
             out<<data;
         }
+        else if(msg_type == NEW_TRANSACTION)
+        {
+            out << data.selectSellingWay();
+        }
 
         if(socket->write(block) == -1)
             socket->abort();
@@ -469,7 +483,7 @@ void MainWindow::sendMsgToSocket(QTcpSocket* socket, int msg_type)
             return;
         }
         out <<quo.getMetalPrice()<<quo.readAllBatteryType()
-          << value_list <<quo.readAllRecoveryCost();
+          << value_list <<quo.readAllRecoveryCost() << post_address;
     }
 
     if(socket->write(block) == -1)

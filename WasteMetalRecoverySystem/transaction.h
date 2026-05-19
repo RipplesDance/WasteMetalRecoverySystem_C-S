@@ -6,6 +6,7 @@
 #include<QString>
 #include<QDateTime>
 #include<QRandomGenerator>
+#include"address.h"
 
 class transaction
 {
@@ -48,6 +49,10 @@ protected:
     void toogleAccept();
 
     void changeClassVersion(int version);
+
+public:
+    address post_address;
+    address sent_address;
 
 private:
     QString idGenerator();

@@ -16,6 +16,8 @@
 #include <QTcpSocket>
 #include<QCloseEvent>
 #include<QList>
+#include <QDesktopServices>
+#include <QUrl>
 #include"batteryMaterialConcentration.h"
 #include"quotation.h"
 #include"transaction.h"
@@ -24,6 +26,8 @@
 #include"recoveryCost.h"
 #include"settingDialog.h"
 #include"clientSetting.h"
+#include"addressDialog.h"
+#include"address.h"
 #include <QGraphicsDropShadowEffect>
 
 enum {
@@ -50,32 +54,36 @@ public:
     ~MainWindow();
 
     void init();
-    double fetchNumberFromString(QString str);
-    void makeDirPath(QString filePath);
-    void sellButtonClicked(QString sellingWay);
-    void frameClicked(QString frameType);
-    void updateTransaction(transaction data);
-    void newTransaction(transaction data);
-    void sendMsgToServer(int type, transaction data);
-    void sendMsgToServer(int type);
-    void updateMetalPrice(metalPrice data);
-    void updateTypeComboBox();
-    bool clearDir(QString dirPath);
-    void socketConnectToServer();
-    QString getUUID();
-    void resizeWindow();
-    void startHandshake();
-    bool dirPathChanged(QString oldPath, QString newPath);
+    double fetchNumberFromString(QString str);//get all numbers from a Qstring type
+    void makeDirPath(QString filePath); // create certain file path
+    void sellButtonClicked(QString sellingWay); // 2 sell buttons clicked
+    void frameClicked(QString frameType); // personal data area clicked
+    void updateTransaction(transaction data); // update when status changes
+    void newTransaction(transaction data); // new transaction will send msg to server
+    void sendMsgToServer(int type, transaction data); // communicate with server on way 1
+    void sendMsgToServer(int type); // communicate with server on way 2
+    void updateMetalPrice(metalPrice data);// trigger when server send new metal price
+    void updateTypeComboBox(); // trigger when change current item
+    bool clearDir(QString dirPath); // remove certain dir path
+    void socketConnectToServer(); // to connect remote server
+    QString getUUID(); // grab the only uuid on device
+    void resizeWindow(); // modify the whole window size
+    void startHandshake(); // trigger when connect to server successfully
+    bool dirPathChanged(QString oldPath, QString newPath); // change from old dir path to new dir path
+
+    //price card redirect to extral link
+    void openKLine();
 
     //polish
-    void polishInterface();
-    void setupCardShadow(QWidget *card);
+    void polishInterface(); // general polish function
+    void setupCardShadow(QWidget *card); // card shadow
 
 protected:
-    void closeEvent(QCloseEvent *event) override;
+    void closeEvent(QCloseEvent *event) override; // double check close
+    bool eventFilter(QObject *watched, QEvent *event) override; // only for price card to redirect to extral link
 
 public slots:
-    void onSlideValueChanged(int value);
+    void onSlideValueChanged(int value); //trigger if SOH bar value changed
     void offFocus();
     void comboBoxchanged();
 
@@ -102,6 +110,7 @@ private:
     //extra dialog
     transactionHistoryDialog *transactionHistory_dialog;
     settingDialog* setting_dialog;
+    addressDialog* address_dialog;
 
     //client parameters
     QTcpSocket *socket;
@@ -113,5 +122,7 @@ private:
 
     //setting
     clientSetting setting;
+
+
 };
 #endif // MAINWINDOW_H

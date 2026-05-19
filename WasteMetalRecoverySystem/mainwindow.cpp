@@ -22,6 +22,16 @@ MainWindow::MainWindow(QWidget *parent)
         }
     connect(setting_dialog,&settingDialog::settingChanged,this,&MainWindow::onNewSetting);
 
+    address_dialog = new addressDialog(this);
+    address_dialog->hide();
+    address_dialog->setWindowIcon(QIcon(":/images/res/transaction.ico"));
+    QFile addressQss(":/QSS/address.qss");
+        if (addressQss.open(QFile::ReadOnly)) {
+            QString styleSheet = QLatin1String(addressQss.readAll());
+            address_dialog->setStyleSheet(styleSheet);
+            addressQss.close();
+        }
+
     //timer init
     socketConnectingTimer = new QTimer(this);
     times = 0;
@@ -50,6 +60,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->transactionHistory_frame, &interactableFrame::clicked,[=](){this->frameClicked("transactionHistory");});
     connect(ui->setting_frame, &interactableFrame::clicked,[=](){this->frameClicked("setting");});
+    connect(ui->address_frame, &interactableFrame::clicked,[=](){this->frameClicked("address");});
 
     connect(ui->sellButton_offline, &QPushButton::clicked, [=](){sellButtonClicked("offline");});
     connect(ui->sellButton_online, &QPushButton::clicked, [=](){sellButtonClicked("online");});
@@ -58,6 +69,7 @@ MainWindow::MainWindow(QWidget *parent)
     //label cannot block mouse release
     ui->transactionHistory_label->setAttribute(Qt::WA_TransparentForMouseEvents);
     ui->setting_label->setAttribute(Qt::WA_TransparentForMouseEvents);
+    ui->address_label->setAttribute(Qt::WA_TransparentForMouseEvents);
 
     //setting loaded
     setting = setting_dialog->readSettingFromLocal();
@@ -78,6 +90,42 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::openKLine()
+{
+
+}
+
+bool MainWindow::eventFilter(QObject *watched, QEvent *event)
+{
+    // 检查是否是鼠标释放事件（即完成一次点击）
+        if (event->type() == QEvent::MouseButtonRelease) {
+            QFrame *frame = qobject_cast<QFrame*>(watched);
+            if (frame && frame->property("type").toString() == "priceCard") {
+
+                QString url;
+                // 根据 UI 中的 objectName 判断点击的是哪种化合物
+                if (frame == ui->frame_8) {
+                    url = "https://hq.smm.cn/new-energy/category/202212210003"; // 示例：硫酸钴
+                } else if (frame == ui->frame_7) {
+                    url = "https://hq.smm.cn/h5/cu-trend";  // 示例：铜
+                } else if (frame == ui->frame_9) {
+                    url = "https://hq.smm.cn/h5/Li2CO3-trend";  // 示例：碳酸锂
+                } else if (frame == ui->frame_10) {
+                    url = "https://hq.smm.cn/manganese/category/202208300001";  // 示例：硫酸锰
+                } else if (frame == ui->frame_11) {
+                    url = "https://hq.smm.cn/h5/nickel-sulfate-price-chart";  // 示例：硫酸镍
+                }
+
+                if (!url.isEmpty()) {
+                    QDesktopServices::openUrl(QUrl(url));
+                    return true; // 事件已处理
+                }
+            }
+        }
+        // 其他事件交给基类处理
+        return QMainWindow::eventFilter(watched, event);
+}
+
 void MainWindow::polishInterface()
 {
     //set style
@@ -87,12 +135,17 @@ void MainWindow::polishInterface()
     ui->frame_9->setProperty("type", "priceCard");
     ui->frame_10->setProperty("type", "priceCard");
     ui->frame_11->setProperty("type", "priceCard");
-    setupCardShadow(ui->frame_7);
-    setupCardShadow(ui->frame_8);
-    setupCardShadow(ui->frame_9);
-    setupCardShadow(ui->frame_10);
-    setupCardShadow(ui->frame_11);
-    setupCardShadow(ui->frame_2);
+//    setupCardShadow(ui->frame_7);
+//    setupCardShadow(ui->frame_8);
+//    setupCardShadow(ui->frame_9);
+//    setupCardShadow(ui->frame_10);
+//    setupCardShadow(ui->frame_11);
+//    setupCardShadow(ui->frame_2);
+    QList<QFrame*> priceCards = {ui->frame_7, ui->frame_8, ui->frame_9, ui->frame_10, ui->frame_11};
+        for (QFrame* card : priceCards) {
+            setupCardShadow(card);
+            card->installEventFilter(this);         // 安装过滤器
+        }
 
     //middle
     ui->li_price->setProperty("type", "metalPrice");
@@ -125,15 +178,17 @@ void MainWindow::polishInterface()
 void MainWindow::setupCardShadow(QWidget *card) {
     QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect();
 
-    shadow->setBlurRadius(15);      // 阴影模糊半径，越大越柔和
-    shadow->setColor(QColor(0, 0, 0, 40)); // 黑色阴影，透明度设为 40 (约 15%)
-    shadow->setOffset(0, 4);        // 阴影向下方偏移 4 像素，产生浮动感
+    //set shadow
+    shadow->setBlurRadius(15);
+    shadow->setColor(QColor(0, 0, 0, 40));
+    shadow->setOffset(0, 4);
 
     card->setGraphicsEffect(shadow);
 }
 
 void MainWindow::init()
 {
+    //set 0 for these items
     ui->weight_spinBox->setValue(0.0);
     ui->energyDensity_spinBox->setValue(0.0);
     ui->final_price->setText(0);
@@ -226,6 +281,13 @@ void MainWindow::sellButtonClicked(QString sellingWay)
         return;
     }
 
+    address default_address = address_dialog->getDefaultAddress();
+    if(sellingWay == "offline" && (default_address.id.isEmpty() || !default_address.isValid()))
+    {
+        QMessageBox::warning(this,"警告","当前地址簿没有默认地址，无法发送交易!");
+        return;
+    }
+
      double weight = ui->weight_spinBox->value();
      QString text_SOH = ui->SOH_capcity->text();
 
@@ -256,6 +318,8 @@ void MainWindow::sellButtonClicked(QString sellingWay)
     transactionDetails.setSellingWay(sellingWay);
     transactionDetails.setLeagcyElectricity(leagcyElectricity);
     transactionDetails.setUuid(getUUID());
+    transactionDetails.sent_address = default_address;
+    transactionDetails.post_address = address_dialog->post_address;
 
     QString filePath = QString(setting.transactionPath +"/%1.dat").arg(transactionDetails.getId());
     transactionDetails.setFilePath(filePath);
@@ -394,6 +458,10 @@ void MainWindow::frameClicked(QString frameType)
     {
         setting_dialog->show();
         setting_dialog->setDefult(setting);
+    }
+    else if (frameType == "address")
+    {
+        address_dialog->show();
     }
 }
 
@@ -568,12 +636,14 @@ void MainWindow::msgFromServer()
             QList<QString> batteries_list;
             QList<batteryMaterialConcentration> materialConcentration_list;
             QList<recoveryCost> recoveryCost_list;
+            address post_address;
 
-            in >> metal_price >> batteries_list >> materialConcentration_list >> recoveryCost_list;
+            in >> metal_price >> batteries_list >> materialConcentration_list >> recoveryCost_list >> post_address;
 
             if(!in.commitTransaction())
                 return;
 
+            address_dialog->post_address = post_address;
             //clear dir
             clearDir("bin/quotation_model/recoveryCost");
             clearDir("bin/quotation_model/battery");
@@ -599,7 +669,19 @@ void MainWindow::msgFromServer()
         }
         else if(order == NEW_TRANSACTION)   //transaction received
         {
-            QMessageBox::information(this, "成功", "电池交易请求提交成功！");
+            QString sellingWay;
+            in>>sellingWay;
+            if(sellingWay == "offline")
+                QMessageBox::information(this, "成功", "电池交易请求提交成功！我们会尽快安排人员到场处理！");
+            else
+            {
+                address data = address_dialog->post_address;
+                QMessageBox::information(this, "成功", QString("已收到您的交易请求，请邮寄到\n"
+                                                             "收件人: %1, 电话: %2\n"
+                                                             "地址: %2\n"
+                                                             "收到电池后将立即处理您的请求!")
+                                         .arg(data.fullName,data.phoneNumber,data.getFullAddress(&data)));
+            }
             transactionReceivedTimer->stop();
         }
         else if(order == TRANSACTION_STATUS)   //transaction status updated

@@ -6,6 +6,7 @@
 #include<QString>
 #include<QDateTime>
 #include<QRandomGenerator>
+#include"address.h"
 
 class transaction
 {
@@ -25,29 +26,32 @@ public:
 
     void setFilePath(QString filePath);
     void setUuid(QString uuid);
-    void toogleAccept();
-    void setResultTime(QDateTime resultTime);
 
     //quest
-    QString getId();
-    QString selectType();
-    QString selectUsagePurpose();
-    QString selectSellingWay();
+    const QString getId();
+    const QString selectType();
+    const QString selectUsagePurpose();
+    const QString selectSellingWay();
     double selectEnergyDensity();
     double selectWeight();
     double selectSOH();
     double selectPrice();
     double selectLeagcyElectricity();
     bool checkStatus();
-    QDateTime selectSubmittedTime();
-    QDateTime selectResultTime();
+    const QDateTime selectSubmittedTime();
+    const QDateTime selectResultTime();
 
-    QString selectFilePath();
+    const QString selectFilePath();
     QString getUuid();
 
-protected:
     void setSubmittedTime(QDateTime submittedTime);
+    void toogleAccept();
+    void setResultTime(QDateTime time);
     void changeClassVersion(int version);
+
+public:
+    address post_address;
+    address sent_address;
 
 private:
     QString idGenerator();

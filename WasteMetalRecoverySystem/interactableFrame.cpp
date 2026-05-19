@@ -26,6 +26,29 @@ interactableFrame::~interactableFrame()
 
 }
 
+void interactableFrame::setLabelFontSize(int size)
+{
+    QList<QLabel*> allLabels = this->findChildren<QLabel*>();
+    // 2. 准备一个字体对象
+    QFont font = this->font();
+    font.setPointSize(size); // 设置你想要的字号
+    // font.setBold(true);  // 如果需要加粗
+    for (QLabel* label : allLabels) {
+        label->setFont(font);
+    }
+
+}
+
+void interactableFrame::labelsPenetrateMouseEvent() {
+    // 1. 获取所有的子 QLabel
+    QList<QLabel*> allLabels = this->findChildren<QLabel*>();
+    for (QLabel* label : allLabels) {
+        // 让 Label 对鼠标事件透明（点击穿透到 Frame）
+        label->setAttribute(Qt::WA_TransparentForMouseEvents);
+        // 顺便确保 Label 自身没有背景干扰（保持透明）
+        label->setStyleSheet("background: transparent; border: none;");
+    }
+}
 
 void interactableFrame::enterEvent(QEvent *event)
 {
@@ -58,6 +81,16 @@ void interactableFrame::mouseReleaseEvent(QMouseEvent *event)
                     transition(QColor(248, 252, 248), 220);
                 }
         emit clicked();
+    }
+    else if (event->button() == Qt::RightButton && isPressed)
+    {
+        isPressed = false;
+        if (underMouse()) {
+                    transition(QColor(235, 245, 235), 180);
+                } else {
+                    transition(QColor(248, 252, 248), 220);
+                }
+        emit rightClicked();
     }
 }
 

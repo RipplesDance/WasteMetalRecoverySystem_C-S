@@ -97,6 +97,9 @@ public slots:
     void showPendingContextMenu(const QPoint &pos);
     void showFinishedContextMenu(const QPoint &pos);
 
+public:
+    address post_address;
+
 private:
     Ui::MainWindow *ui;
     //network parameters

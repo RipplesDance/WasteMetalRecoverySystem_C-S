@@ -23,6 +23,8 @@ public:
     explicit interactableFrame(QWidget *parent = nullptr);
     ~interactableFrame();
     void transition(const QColor &targetColor, int duration);
+    void labelsPenetrateMouseEvent();
+    void setLabelFontSize(int size);
 
 private:
     // override event function
@@ -36,6 +38,7 @@ private:
 
 signals:
     void clicked();
+    void rightClicked();
 
 private:
     QVariantAnimation *animation;

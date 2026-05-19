@@ -90,7 +90,8 @@ void transaction::setUuid(QString uuid)
 
     out << data.classVersion << data.id << data.type << data.energyDensity << data.weight << data.SOH << data.price
         << data.usagePurpose << data.leagcyElectricity << data.sellingWay << data.isAccepted
-        << data.submittedTime << data.resultTime << data.filePath << data.uuid;
+        << data.submittedTime << data.resultTime << data.filePath << data.uuid << data.sent_address
+        << data.post_address;
     return out;
  }
 
@@ -102,7 +103,8 @@ QDataStream &operator>>(QDataStream &in, transaction &data)
     {
         in >> data.id >> data.type >> data.energyDensity >> data.weight >> data.SOH >> data.price
                 >> data.usagePurpose >> data.leagcyElectricity >> data.sellingWay >> data.isAccepted
-                >> data.submittedTime >> data.resultTime >> data.filePath >> data.uuid;
+                >> data.submittedTime >> data.resultTime >> data.filePath >> data.uuid >> data.sent_address
+                >> data.post_address;
     }
 
     return in;

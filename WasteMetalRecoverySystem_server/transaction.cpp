@@ -19,6 +19,11 @@ QString transaction::idGenerator()
     return timestamp + QString::number(random);
 }
 
+void transaction::setResultTime(QDateTime time)
+{
+    this->resultTime = time;
+}
+
 void transaction::setEnergyDensity(double energyDensity)
 {
     this->energyDensity = energyDensity;
@@ -62,6 +67,7 @@ void transaction::setSellingWay(QString sellingWay)
 void transaction::toogleAccept()
 {
     isAccepted = !isAccepted;
+    this->resultTime = QDateTime::currentDateTime();
 }
 
 void transaction::setUsagePurpose(QString usagePurpose)
@@ -72,11 +78,6 @@ void transaction::setUsagePurpose(QString usagePurpose)
 void transaction::setSubmittedTime(QDateTime submittedTime)
 {
     this->submittedTime = submittedTime;
-}
-
-void transaction::setResultTime(QDateTime resultTime)
-{
-    this->resultTime = resultTime;
 }
 
 void transaction::changeClassVersion(int version)
@@ -94,7 +95,8 @@ void transaction::setUuid(QString uuid)
 
     out << data.classVersion << data.id << data.type << data.energyDensity << data.weight << data.SOH << data.price
         << data.usagePurpose << data.leagcyElectricity << data.sellingWay << data.isAccepted
-        << data.submittedTime << data.resultTime << data.filePath << data.uuid;
+        << data.submittedTime << data.resultTime << data.filePath << data.uuid << data.sent_address
+        << data.post_address;
     return out;
  }
 
@@ -106,23 +108,24 @@ QDataStream &operator>>(QDataStream &in, transaction &data)
     {
         in >> data.id >> data.type >> data.energyDensity >> data.weight >> data.SOH >> data.price
                 >> data.usagePurpose >> data.leagcyElectricity >> data.sellingWay >> data.isAccepted
-                >> data.submittedTime >> data.resultTime >> data.filePath >> data.uuid;
+                >> data.submittedTime >> data.resultTime >> data.filePath >> data.uuid >> data.sent_address
+                >> data.post_address;
     }
 
     return in;
 }
 
-QString transaction::getId(){return id;}
-QString transaction::selectType(){return type;}
-QString transaction::selectUsagePurpose(){return usagePurpose;}
-QString transaction::selectSellingWay(){return sellingWay;}
+const QString transaction::getId(){return id;}
+const QString transaction::selectType(){return type;}
+const QString transaction::selectUsagePurpose(){return usagePurpose;}
+const QString transaction::selectSellingWay(){return sellingWay;}
 double transaction::selectEnergyDensity(){return energyDensity;}
 double transaction::selectWeight(){return weight;}
 double transaction::selectSOH(){return SOH;}
 double transaction::selectPrice(){return price;}
 double transaction::selectLeagcyElectricity(){return leagcyElectricity;}
 bool transaction::checkStatus(){return isAccepted;}
-QDateTime transaction::selectSubmittedTime(){return submittedTime;}
-QDateTime transaction::selectResultTime(){return resultTime;}
-QString transaction::selectFilePath(){return filePath;}
+const QDateTime transaction::selectSubmittedTime(){return submittedTime;}
+const QDateTime transaction::selectResultTime(){return resultTime;}
+const QString transaction::selectFilePath(){return filePath;}
 QString transaction::getUuid(){return uuid;}

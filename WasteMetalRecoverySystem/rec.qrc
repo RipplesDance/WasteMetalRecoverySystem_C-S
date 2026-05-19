@@ -22,5 +22,9 @@
     <qresource prefix="/QSS">
         <file>MainWindow.qss</file>
         <file>setting_stylesheet.qss</file>
+        <file>address.qss</file>
+    </qresource>
+    <qresource prefix="/json">
+        <file>json.json</file>
     </qresource>
 </RCC>

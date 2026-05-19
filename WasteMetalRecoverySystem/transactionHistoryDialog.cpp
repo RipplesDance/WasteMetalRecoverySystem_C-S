@@ -22,19 +22,6 @@ transactionHistoryDialog::transactionHistoryDialog(QWidget *parent) :
 
     //set style
     ui->transactionList->setSpacing(10);
-
-//    ui->transactionList->setStyleSheet(
-//        "QListWidget {"
-//        "    outline: none;"
-//        "}"
-
-//        "QListWidget::item {"
-//        "    color: #333333;"
-//        "    padding: 10px;"
-//        "}"
-//    );
-
-//    ui->frame->setStyleSheet(".QFrame { border-radius: 10px; border: 2px inset #828282; }");
 }
 
 transactionHistoryDialog::~transactionHistoryDialog()
@@ -144,15 +131,31 @@ void transactionHistoryDialog::updataTransaction(transaction data)
 {
     ui->type_label->setText(data.selectType());
     ui->price_label->setText(QString::number(data.selectPrice(),'f', 2) + "元");
-    ui->id_label->setText("【<img src=':/images/res/id.ico' width='18' height='18'/> id:" + data.getId()+" 】");
+    ui->id_label->setText("【📄 id:" + data.getId()+" 】");
 
-    ui->weight_label->setText("【<img src=':/images/res/weight.ico' width='18' height='18'/> 重量:" + QString::number(data.selectWeight(),'f', 2) + "kg 】");
-    ui->SOH_label->setText("【<img src=':/images/res/SOH.ico' width='18' height='18'/> SOH:" + QString::number(data.selectSOH()*100) + "% 】");
-    ui->energyDensity_label->setText("【<img src=':/images/res/energyDensity.ico' width='18' height='18'/> 能量密度:" + QString::number(data.selectEnergyDensity(),'f', 2) + "Wh/kg 】");
-    ui->leagcyElectricity_label->setText("【<img src=':/images/res/leagcyElectricity.ico' width='18' height='18'/> 剩余电量:" + QString::number(data.selectLeagcyElectricity(),'f', 2) + "度 】");
-    ui->usage_label->setText("【<img src=':/images/res/recycle.ico' width='18' height='18'/> 回收用途:" + data.selectUsagePurpose() + " 】");
-    ui->sellingWay_label->setText(QString("【<img src=':/images/res/package.ico' width='18' height='18'/> 出售方式:%1")
+    ui->weight_label->setText("【⚖️ 重量:" + QString::number(data.selectWeight(),'f', 2) + "kg 】");
+    ui->SOH_label->setText("【📉 SOH:" + QString::number(data.selectSOH()*100) + "% 】");
+    ui->energyDensity_label->setText("【🔋 能量密度:" + QString::number(data.selectEnergyDensity(),'f', 2) + "Wh/kg 】");
+    ui->leagcyElectricity_label->setText("【⚡ 剩余电量:" + QString::number(data.selectLeagcyElectricity(),'f', 2) + "度 】");
+    ui->usage_label->setText("【♻️ 回收用途:" + data.selectUsagePurpose() + " 】");
+    ui->sellingWay_label->setText(QString("【📦 出售方式:%1")
                                   .arg(data.selectSellingWay() == "offline" ? "上门回收 】" : "线上邮寄 】"));
+    address post_address = data.post_address;
+    address sent_address = data.sent_address;
+    if(data.selectSellingWay() == "online")
+    {
+
+        ui->post_address_label->setText("【📤 邮寄地址：" + post_address.fullName + " " + post_address.phoneNumber+  "\n"
+                                        + post_address.getFullAddress(&sent_address) + "】");
+        ui->sent_address_label->setText("【📤 发送地址：" + sent_address.fullName + " " + sent_address.phoneNumber+  "\n"
+                                        + sent_address.getFullAddress(&sent_address) + "】");
+    }
+    else
+    {
+        ui->post_address_label->setText("【📤】");
+        ui->sent_address_label->setText("【📤 上门地址：" + sent_address.fullName + sent_address.phoneNumber+  "\n"
+                                        + sent_address.getFullAddress(&sent_address) + "】");
+    }
 
     QDateTime submit = data.selectSubmittedTime();
     QDateTime result = data.selectResultTime();
@@ -161,12 +164,12 @@ void transactionHistoryDialog::updataTransaction(transaction data)
         QMessageBox::warning(this,"警告","无法获取交易时间");
         return;
     }
-    ui->submittedTime_label->setText(submit.toString("yyyy-MM-dd hh:mm"));
+    ui->submittedTime_label->setText("📅 " + submit.toString("yyyy-MM-dd hh:mm"));
     if(!result.isValid())
     {
         ui->transactionStatus_label->setText("交易状态:处理中");
-        ui->resultTime_label->setText("处理时间");
-        ui->duration_label->setText("<img src=':/images/res/duration.ico' width='14' height='14'/> 耗时:");
+        ui->resultTime_label->setText("📅 处理时间");
+        ui->duration_label->setText("⌛ 耗时:");
         ui->transactionStatus_label->setStyleSheet(
                     "QLabel {"
                     "padding: 4px 12px;"
@@ -223,12 +226,12 @@ void transactionHistoryDialog::updataTransaction(transaction data)
                 "}"
                     );
     }
-    ui->resultTime_label->setText(result.toString("yyyy-MM-dd hh:mm"));
+    ui->resultTime_label->setText("📅 " + result.toString("yyyy-MM-dd hh:mm"));
 
     qint64 totalSecs = submit.secsTo(result);
     int hours = totalSecs / 3600;
     int minutes = (totalSecs % 3600) / 60;
-    ui->duration_label->setText("<img src=':/images/res/duration.ico' width='14' height='14'/> "+QString("耗时:%1时%2分").arg(hours).arg(minutes));
+    ui->duration_label->setText("⌛ "+QString("耗时:%1时%2分").arg(hours).arg(minutes));
 
 
 }

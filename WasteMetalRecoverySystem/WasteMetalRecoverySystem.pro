@@ -18,6 +18,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    address.cpp \
+    addressDialog.cpp \
     batteryMaterialConcentration.cpp \
     clientSetting.cpp \
     interactableFrame.cpp \
@@ -31,6 +33,8 @@ SOURCES += \
     transactionHistoryDialog.cpp
 
 HEADERS += \
+    address.h \
+    addressDialog.h \
     batteryMaterialConcentration.h \
     clientSetting.h \
     interactableFrame.h \
@@ -43,6 +47,7 @@ HEADERS += \
     transactionHistoryDialog.h
 
 FORMS += \
+    addressDialog.ui \
     mainwindow.ui \
     settingDialog.ui \
     transactionHistoryDialog.ui

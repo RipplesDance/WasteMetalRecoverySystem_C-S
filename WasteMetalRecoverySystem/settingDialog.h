@@ -6,6 +6,7 @@
 #include<QFile>
 #include<QDir>
 #include<QDataStream>
+#include<QFileDialog>
 #include"clientSetting.h"
 
 namespace Ui {
@@ -25,6 +26,7 @@ public:
 
 public slots:
     void offFocus();
+    void on_broswer_btn_clicked();
 
 signals:
     void settingChanged(clientSetting setting);

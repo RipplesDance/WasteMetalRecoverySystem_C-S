@@ -20,6 +20,7 @@ settingDialog::settingDialog(QWidget *parent) :
     connect(ui->width_spinBox,QOverload<int>::of(&QSpinBox::valueChanged),this,&settingDialog::offFocus);
     connect(ui->height_spinBox,QOverload<int>::of(&QSpinBox::valueChanged),this,&settingDialog::offFocus);
     connect(ui->waittingTime_spinBox,QOverload<int>::of(&QSpinBox::valueChanged),this,&settingDialog::offFocus);
+    connect(ui->browser_btn, &QPushButton::clicked, this, &settingDialog::on_broswer_btn_clicked);
 
     //check if setting dir exists
     QDir dir;
@@ -36,6 +37,20 @@ settingDialog::settingDialog(QWidget *parent) :
 settingDialog::~settingDialog()
 {
     delete ui;
+}
+
+void settingDialog::on_broswer_btn_clicked()
+{
+    // 弹出文件夹选择对话框
+        QString dir = QFileDialog::getExistingDirectory(this, tr("选择订单保存目录"),
+                                                        "/home",
+                                                        QFileDialog::ShowDirsOnly
+                                                        | QFileDialog::DontResolveSymlinks);
+
+        // 如果用户没点取消，则将路径设置到输入框中
+        if (!dir.isEmpty()) {
+            ui->transactionDirPath_lineEdit->setText(dir);
+        }
 }
 
 bool settingDialog::saveSettingToLocal(clientSetting setting)
